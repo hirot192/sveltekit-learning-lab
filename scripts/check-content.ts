@@ -1,11 +1,23 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, extname, resolve } from 'node:path';
 import { chapters } from '../src/lib/content/chapters';
+import { getChapterReading } from '../src/lib/content/readings';
 
 const root = process.cwd();
 const failures: string[] = [];
 
 for (const chapter of chapters.filter((item) => item.status === 'ready')) {
+	const reading = getChapterReading(chapter.slug);
+	if (!reading) {
+		failures.push(`${chapter.slug}: reading is missing`);
+		continue;
+	}
+
+	if (reading.tryFirst.steps.length === 0)
+		failures.push(`${chapter.slug}: tryFirst.steps is empty`);
+	if (reading.concepts.length === 0) failures.push(`${chapter.slug}: concepts is empty`);
+	if (reading.checkpoints.length === 0) failures.push(`${chapter.slug}: checkpoints is empty`);
+
 	const requiredLists = [
 		['prerequisites', chapter.prerequisites],
 		['goals', chapter.goals],

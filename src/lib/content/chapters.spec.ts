@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { chapters, getChapter } from './chapters';
+import { chapterReadings, getChapterReading } from './readings';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -40,10 +41,17 @@ describe('chapter catalog', () => {
 
 	it('returns undefined for an unknown chapter', () => {
 		expect(getChapter('not-found')).toBeUndefined();
+		expect(getChapterReading('not-found')).toBeUndefined();
 	});
 
 	it('keeps every published chapter complete and its source map valid', () => {
 		for (const chapter of chapters.filter((item) => item.status === 'ready')) {
+			const reading = getChapterReading(chapter.slug);
+
+			expect(reading, `${chapter.slug}: reading`).toBeDefined();
+			expect(reading?.tryFirst.steps, `${chapter.slug}: tryFirst.steps`).not.toHaveLength(0);
+			expect(reading?.concepts, `${chapter.slug}: concepts`).not.toHaveLength(0);
+			expect(reading?.checkpoints, `${chapter.slug}: checkpoints`).not.toHaveLength(0);
 			expect(chapter.prerequisites, chapter.slug).not.toHaveLength(0);
 			expect(chapter.goals, chapter.slug).not.toHaveLength(0);
 			expect(chapter.flow, chapter.slug).not.toHaveLength(0);
@@ -55,5 +63,11 @@ describe('chapter catalog', () => {
 				expect(existsSync(resolve(process.cwd(), source.path)), source.path).toBe(true);
 			}
 		}
+	});
+
+	it('does not publish reading material without a matching chapter', () => {
+		expect(Object.keys(chapterReadings).sort()).toEqual(
+			chapters.map((chapter) => chapter.slug).sort()
+		);
 	});
 });

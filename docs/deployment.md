@@ -2,6 +2,20 @@
 
 対象はDocker EngineとCompose pluginを利用できる一般的なLinuxサーバーです。アプリとPostgreSQLはコンテナで動かし、CaddyなどのTLS reverse proxyだけがインターネットからの通信を受けます。
 
+## 教材をローカルで試す
+
+インターネットへ公開せずLinuxマシン上で教材を試すだけなら、本番用の環境変数やTLSは不要です。
+
+```bash
+git clone https://github.com/hirot192/sveltekit-learning-lab.git
+cd sveltekit-learning-lab
+./scripts/quickstart.sh
+```
+
+`quickstart.sh`は`.env.quickstart`へランダムなDBパスワードを生成し、image build、DB起動、migration、seed、app起動を順に実行します。Compose projectと環境ファイルを本番用から分離しているため、`deploy.sh`の設定とは混ざりません。再実行時は既存の環境ファイルとDB volumeを再利用します。
+
+clone前から自動化する場合は、リポジトリ直下の`install.sh`をダウンロードして内容を確認してから実行します。このスクリプトはリポジトリをcloneし、その中の`quickstart.sh`へ処理を引き継ぎます。
+
 ```text
 Internet :443
   -> Caddy (TLS / compression)
@@ -10,7 +24,7 @@ Internet :443
         -> PostgreSQL container + named volume
 ```
 
-## 初回デプロイ
+## 初回の公開デプロイ
 
 DNSのA/AAAAレコードをサーバーへ向け、リポジトリをcloneして次を実行します。
 

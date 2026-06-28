@@ -48,17 +48,12 @@ jobs:
       - run: npm run test:db
       - run: npm run build
       - run: docker build --tag sveltekit-learning-lab:ci .
-      - name: Smoke test production containers
-        env:
-          DATABASE_URL: postgresql://sveltekit:change-me-use-a-long-random-password@db:5432/sveltekit_learning_lab
+      - name: Smoke test one-command quickstart
         run: |
-          docker compose --env-file .env.production.example -f compose.production.yml up -d db
-          docker compose --env-file .env.production.example -f compose.production.yml run --rm migrate
-          docker compose --env-file .env.production.example -f compose.production.yml run --rm seed
-          docker compose --env-file .env.production.example -f compose.production.yml up -d --wait --wait-timeout 120 app
+          ./scripts/quickstart.sh
           curl --fail --silent --show-error http://127.0.0.1:3000/healthz
-      - name: Stop production containers
+      - name: Stop quickstart containers
         if: always()
-        run: docker compose --env-file .env.production.example -f compose.production.yml down --volumes
+        run: docker compose --env-file .env.quickstart -f compose.production.yml down --volumes
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

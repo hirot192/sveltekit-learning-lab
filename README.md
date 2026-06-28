@@ -7,7 +7,27 @@
 
 ファイルベースルーティングからPostgreSQL、Form Actions、ログイン、DBセッション、認可、検索、Remote Functions、DockerによるLinuxデプロイまでを、一つのアプリケーションで追跡できます。
 
-![SvelteKit Learning Labの教材トップ](static/screenshots/learning-map.jpg)
+![SvelteKit Learning Labのデスクトップ教材画面](static/screenshots/learning-map.jpg)
+
+## まず動かす
+
+必要なのはGit、Docker Engine、Docker Compose pluginだけです。リポジトリをcloneしたら、一つのスクリプトでアプリ、PostgreSQL、migration、学習データをまとめて準備できます。
+
+```bash
+git clone https://github.com/hirot192/sveltekit-learning-lab.git
+cd sveltekit-learning-lab
+./scripts/quickstart.sh
+```
+
+`http://localhost:3000`を開きます。初回だけimage buildに数分かかることがあります。再実行しても既存データを保持し、停止方法は完了時に表示します。
+
+cloneもスクリプトへ任せる場合は、実行前に内容を確認してから起動できます。
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/hirot192/sveltekit-learning-lab/main/install.sh -o install.sh
+less install.sh
+bash install.sh
+```
 
 ## 学べること
 
@@ -25,6 +45,21 @@
 
 各章には、前提知識、学習目標、リクエストの処理順、読むソース、手元で試す実験があります。
 
+## 学び方
+
+アプリを起動して`/learn`を開き、最初に基礎編でroute規約、serverとbrowserの境界、SSR、hydration、load、Form Actionsの関係を一つの地図として整理します。
+
+各章は次の順序で進みます。
+
+1. 完成したアプリを操作し、観察する対象を決める
+2. その章で新しく登場する概念と、よくある誤解を読む
+3. ブラウザからDBまでの処理フローを追う
+4. source mapの順番で実装コードを読む
+5. コードや状態を小さく変更し、予測を検証する
+6. 理解度チェックへ自分の言葉で答える
+
+基礎編と章本文は`src/lib/content`の型付きデータを単一ソースとして描画し、内容とUIの不整合を検査します。
+
 ## 全体構成
 
 ```mermaid
@@ -41,9 +76,9 @@ flowchart LR
 
 SvelteコンポーネントからDBへ直接アクセスせず、HTTP境界、ユースケース、永続化を小さく分けています。抽象化そのものを目的にせず、ブラウザからSQLまでをファイル名から追える構成です。
 
-## ローカル起動
+## ソースを変更しながら起動
 
-必要な環境はNode.js 24、npm、Dockerです。
+教材のコードを変更し、hot reloadしながら確認するときはNode.js 24、npm、Dockerを使います。
 
 ```bash
 npm ci
@@ -56,9 +91,9 @@ npm run dev
 
 `http://localhost:5173`を開きます。seedは教材表示用の固定データを作りますが、ログイン可能なパスワードは設定しません。メモ機能は画面から学習用アカウントを登録して試してください。
 
-## Production container
+## インターネットへ公開する
 
-一般的なLinux環境では、次の手順でadapter-nodeとPostgreSQLを起動できます。
+公開環境ではドメイン、DNS、TLS、秘密情報を明示的に設定します。一般的なLinux環境では、次の手順でadapter-nodeとPostgreSQLを起動できます。
 
 ```bash
 cp .env.production.example .env.production

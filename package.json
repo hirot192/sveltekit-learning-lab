@@ -1,7 +1,7 @@
 {
 	"name": "sveltekit-learning-lab",
 	"private": true,
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "A source-first SvelteKit learning project with PostgreSQL, sessions, authorization and Docker deployment",
 	"license": "MIT",
 	"homepage": "https://github.com/hirot192/sveltekit-learning-lab#readme",

@@ -59,6 +59,7 @@ src/routes/
   +layout.server.ts           # 現在のユーザーを全ページへ渡す
   +layout.svelte              # 共通ナビゲーション
   +page.svelte                # 教材トップ
+  learn/+page.svelte          # 全章共通のSvelteKit基礎編
   learn/[chapter]/            # 章本文と実験
   register/                   # 登録 form action
   login/                      # ログイン form action
@@ -72,6 +73,8 @@ src/routes/
   api/notes/                  # +server.ts の比較教材
   healthz/                    # コンテナ用ヘルスチェック
 ```
+
+教材本文は`src/lib/content/primer.ts`、章固有の読み物は`src/lib/content/readings.ts`、処理フローとsource mapは`src/lib/content/chapters.ts`で型付きデータとして管理する。ページ側へ本文を複製せず、同じ内容をテストと教材リンク検査の対象にする。
 
 ## 5. サーバー側モジュール
 
@@ -212,6 +215,13 @@ Internet
 - migration はアプリ起動と暗黙に競合させず、デプロイ手順の明示的ステップにする
 - `ORIGIN` または信頼済みプロキシヘッダーを正しく設定する
 - TLS 終端とバックアップはアプリ外の運用責務として手順を示す
+
+導入経路は責務の異なる二つに分ける。
+
+- `scripts/quickstart.sh`: localhostで教材を試すため、`.env.quickstart`と秘密情報を自動生成する
+- `scripts/deploy.sh`: 公開環境のorigin、version、秘密情報を運用者が明示して反映する
+
+リポジトリ直下の`install.sh`はcloneだけを担当し、実際の構築処理を`quickstart.sh`へ委譲する。これにより導入処理の重複を避け、ダウンロードしたスクリプトを実行前に読めるようにする。
 
 ## 10. 公式資料との整合
 
