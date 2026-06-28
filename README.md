@@ -1,5 +1,8 @@
 # SvelteKit Learning Lab
 
+[![CI](https://github.com/hirot192/sveltekit-learning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/hirot192/sveltekit-learning-lab/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0e7a52.svg)](LICENSE)
+
 動くメモアプリとソースコードを往復しながら、SvelteKitの「なぜ動くのか」を学ぶ教材プロジェクトです。
 
 ファイルベースルーティングからPostgreSQL、Form Actions、ログイン、DBセッション、認可、検索、Remote Functions、DockerによるLinuxデプロイまでを、一つのアプリケーションで追跡できます。

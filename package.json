@@ -4,6 +4,14 @@
 	"version": "0.1.0",
 	"description": "A source-first SvelteKit learning project with PostgreSQL, sessions, authorization and Docker deployment",
 	"license": "MIT",
+	"homepage": "https://github.com/hirot192/sveltekit-learning-lab#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hirot192/sveltekit-learning-lab.git"
+	},
+	"bugs": {
+		"url": "https://github.com/hirot192/sveltekit-learning-lab/issues"
+	},
 	"type": "module",
 	"engines": {
 		"node": ">=24 <25"

@@ -15,3 +15,5 @@
 - adapter-nodeのmulti-stage imageとproduction Compose
 - healthcheck、graceful shutdown、deploy、rollback、backup、restore
 - CaddyによるTLS reverse proxy例とLinux運用runbook
+
+[0.1.0]: https://github.com/hirot192/sveltekit-learning-lab/releases/tag/v0.1.0
