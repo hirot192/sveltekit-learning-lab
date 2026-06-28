@@ -112,7 +112,7 @@
 - [x] README、構成図、スクリーンショット、ライセンス
 - [x] `.env.example` とセキュリティ注意事項
 - [x] CI で test / build / Docker build
-- [ ] release tag と変更履歴
+- [x] release tag と変更履歴
 - [x] GitHub への push と公開前チェック
 
 **完了条件:** 秘密情報を含まず、clone 直後から第三者が教材を再現できる。
