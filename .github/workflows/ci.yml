@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://sveltekit:sveltekit@localhost:5432/sveltekit_learning_lab
+      APP_VERSION: ci
+      APP_PORT: 3000
+      COMPOSE_PROJECT_NAME: sveltekit-learning-lab-ci
+      ORIGIN: http://127.0.0.1:3000
+    services:
+      postgres:
+        image: postgres:18-alpine@sha256:72f702819bc91cac2265cbe78e4c3ef4c45694f83d63a6829657581accd038e1
+        env:
+          POSTGRES_DB: sveltekit_learning_lab
+          POSTGRES_USER: sveltekit
+          POSTGRES_PASSWORD: sveltekit
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sveltekit -d sveltekit_learning_lab"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=moderate
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: npm run check
+      - run: npm run lint
+      - run: npm run check:content
+      - run: npm run test:unit -- --run
+      - run: npm run test:db
+      - run: npm run build
+      - run: docker build --tag sveltekit-learning-lab:ci .
+      - name: Smoke test production containers
+        env:
+          DATABASE_URL: postgresql://sveltekit:change-me-use-a-long-random-password@db:5432/sveltekit_learning_lab
+        run: |
+          docker compose --env-file .env.production.example -f compose.production.yml up -d db
+          docker compose --env-file .env.production.example -f compose.production.yml run --rm migrate
+          docker compose --env-file .env.production.example -f compose.production.yml run --rm seed
+          docker compose --env-file .env.production.example -f compose.production.yml up -d --wait --wait-timeout 120 app
+          curl --fail --silent --show-error http://127.0.0.1:3000/healthz
+      - name: Stop production containers
+        if: always()
+        run: docker compose --env-file .env.production.example -f compose.production.yml down --volumes
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

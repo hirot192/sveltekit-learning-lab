@@ -1,0 +1,90 @@
+name: ${COMPOSE_PROJECT_NAME:-sveltekit-learning-lab}
+
+x-app-environment: &app-environment
+  NODE_ENV: production
+  HOST: 0.0.0.0
+  PORT: 3000
+  ORIGIN: ${ORIGIN:?Set ORIGIN in .env.production}
+  DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env.production}
+  SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT:-30}
+  BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT:-512K}
+
+services:
+  db:
+    image: postgres:18-alpine@sha256:72f702819bc91cac2265cbe78e4c3ef4c45694f83d63a6829657581accd038e1
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env.production}
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env.production}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env.production}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+  app:
+    image: sveltekit-learning-lab:${APP_VERSION:-local}
+    build:
+      context: .
+      target: runner
+    environment: *app-environment
+    ports:
+      - '127.0.0.1:${APP_PORT:-3000}:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/healthz').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+    stop_grace_period: 40s
+
+  migrate:
+    image: sveltekit-learning-lab:${APP_VERSION:-local}
+    build:
+      context: .
+      target: runner
+    command: ['node', 'scripts/migrate.mjs']
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env.production}
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ['tools']
+    restart: 'no'
+
+  seed:
+    image: sveltekit-learning-lab:${APP_VERSION:-local}
+    command: ['node', 'scripts/seed.mjs']
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env.production}
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles: ['tools']
+    restart: 'no'
+
+volumes:
+  postgres_data:

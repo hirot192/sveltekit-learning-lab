@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:18-alpine@sha256:72f702819bc91cac2265cbe78e4c3ef4c45694f83d63a6829657581accd038e1
+    environment:
+      POSTGRES_DB: sveltekit_learning_lab
+      POSTGRES_USER: sveltekit
+      POSTGRES_PASSWORD: sveltekit
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U sveltekit -d sveltekit_learning_lab']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
