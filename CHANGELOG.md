@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-28
+
 ### Added
 
 - 各章の前に読むSvelteKit基礎編
@@ -28,4 +30,6 @@
 - healthcheck、graceful shutdown、deploy、rollback、backup、restore
 - CaddyによるTLS reverse proxy例とLinux運用runbook
 
+[Unreleased]: https://github.com/hirot192/sveltekit-learning-lab/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/hirot192/sveltekit-learning-lab/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/hirot192/sveltekit-learning-lab/releases/tag/v0.1.0
