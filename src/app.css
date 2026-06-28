@@ -47,6 +47,14 @@ code,
 pre {
 	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
+.inline-code {
+	padding: 0.12em 0.35em;
+	border: 1px solid var(--line);
+	border-radius: 3px;
+	background: var(--surface);
+	color: var(--ink);
+	font-size: 0.88em;
+}
 .shell {
 	width: min(1180px, calc(100% - 48px));
 	margin-inline: auto;
@@ -400,6 +408,10 @@ pre {
 .chapter-card.available {
 	background: var(--surface);
 }
+.foundation-card {
+	border-color: var(--green);
+	background: #edf5d8;
+}
 .chapter-meta {
 	display: flex;
 	justify-content: space-between;
@@ -585,6 +597,15 @@ pre {
 	font-size: 1rem;
 	line-height: 1.8;
 }
+.lesson-header > p.lesson-bridge {
+	margin-top: -8px;
+	padding: 14px 16px;
+	border-left: 3px solid var(--lime);
+	background: var(--night);
+	color: #d9e3df;
+	font-size: 0.82rem;
+	line-height: 1.7;
+}
 .topic-list {
 	display: flex;
 	flex-wrap: wrap;
@@ -624,10 +645,83 @@ pre {
 .lesson-demo-link {
 	margin-top: 28px;
 }
+.primer-header {
+	padding-top: 12px;
+}
+.primer-position {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	margin-top: 30px;
+	padding: 16px 18px;
+	border: 1px solid var(--line);
+	background: var(--surface);
+	color: var(--muted);
+	font-size: 0.76rem;
+}
+.primer-position strong {
+	color: var(--green);
+}
+.primer-position > span[aria-hidden='true'] {
+	color: #9ca59f;
+}
 .lesson-section {
 	padding-block: 64px;
 	border-bottom: 1px solid var(--line);
 	scroll-margin-top: 24px;
+}
+.reading-copy {
+	color: #34423d;
+	font-size: 0.96rem;
+	line-height: 2;
+}
+.reading-copy p {
+	margin: 0 0 20px;
+}
+.reading-points {
+	display: grid;
+	gap: 1px;
+	margin: 30px 0 0;
+	padding: 1px;
+	background: var(--line);
+	list-style: none;
+}
+.reading-points li {
+	position: relative;
+	padding: 15px 18px 15px 42px;
+	background: var(--surface);
+	font-size: 0.8rem;
+	line-height: 1.6;
+}
+.reading-points li::before {
+	content: '→';
+	position: absolute;
+	left: 18px;
+	color: var(--green);
+	font-weight: 900;
+}
+.primer-flow {
+	margin-top: 32px;
+}
+.primer-next {
+	margin-top: 64px;
+	padding: 46px 42px;
+	border-radius: 8px;
+	background: var(--green);
+	color: white;
+}
+.primer-next .section-label {
+	color: white;
+}
+.primer-next h2 {
+	margin: 0;
+	font-size: 2rem;
+	letter-spacing: -0.035em;
+}
+.primer-next p:not(.section-label) {
+	margin: 18px 0 28px;
+	line-height: 1.8;
 }
 .section-label {
 	margin: 0 0 14px;
@@ -660,6 +754,97 @@ pre {
 .check-list span {
 	color: var(--green);
 	font-weight: 900;
+}
+.try-first-list {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+	list-style: none;
+}
+.try-first-list li {
+	display: grid;
+	grid-template-columns: 44px 1fr;
+	gap: 16px;
+	align-items: start;
+	padding: 18px 0;
+	border-bottom: 1px solid var(--line);
+}
+.try-first-list span {
+	color: var(--green);
+	font-family: monospace;
+	font-size: 0.7rem;
+}
+.try-first-list p {
+	margin: 0;
+	font-size: 0.85rem;
+	line-height: 1.65;
+}
+.observation-note {
+	margin-top: 24px;
+	padding: 20px 22px;
+	border-left: 3px solid var(--green);
+	background: #e8f3c8;
+}
+.observation-note strong {
+	font-size: 0.7rem;
+	letter-spacing: 0.06em;
+}
+.observation-note p {
+	margin: 8px 0 0;
+	font-size: 0.82rem;
+	line-height: 1.65;
+}
+.concept-list {
+	display: grid;
+	gap: 18px;
+}
+.concept-list > section {
+	padding: 28px;
+	border: 1px solid var(--line);
+	background: var(--surface);
+}
+.concept-list h3 {
+	margin: 0 0 12px;
+	font-size: 1.25rem;
+	letter-spacing: -0.02em;
+}
+.concept-list p {
+	margin: 0;
+	color: var(--muted);
+	font-size: 0.84rem;
+	line-height: 1.8;
+}
+.concept-list section > div {
+	display: grid;
+	grid-template-columns: 48px 1fr;
+	gap: 14px;
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px dashed var(--line);
+	font-size: 0.76rem;
+	line-height: 1.65;
+}
+.concept-list section > div strong {
+	color: var(--green);
+}
+.misconception {
+	margin-top: 20px;
+	padding: 22px 24px;
+	border-left: 4px solid #d99a30;
+	background: #fff5df;
+}
+.misconception p {
+	margin: 0;
+	font-size: 0.8rem;
+	line-height: 1.7;
+}
+.misconception p + p {
+	margin-top: 10px;
+	color: var(--muted);
+}
+.misconception strong {
+	margin-right: 8px;
+	color: #8a5700;
 }
 .flow-list {
 	margin: 0 0 34px;
@@ -758,6 +943,39 @@ pre {
 	margin: 7px 0 0;
 	font-size: 0.8rem;
 	line-height: 1.6;
+}
+.checkpoint-section {
+	border-bottom: 0;
+}
+.checkpoint-list {
+	border-top: 1px solid var(--line);
+}
+.checkpoint-list details {
+	border-bottom: 1px solid var(--line);
+}
+.checkpoint-list summary {
+	display: grid;
+	grid-template-columns: 42px 1fr;
+	gap: 12px;
+	align-items: center;
+	padding: 20px 4px;
+	cursor: pointer;
+	font-size: 0.86rem;
+	font-weight: 700;
+	list-style-position: outside;
+}
+.checkpoint-list summary span {
+	color: var(--green);
+	font-family: monospace;
+	font-size: 0.7rem;
+}
+.checkpoint-list details > p {
+	margin: 0 0 20px 58px;
+	padding: 16px 18px;
+	background: var(--surface);
+	color: var(--muted);
+	font-size: 0.8rem;
+	line-height: 1.7;
 }
 .notice {
 	margin-top: 40px;
@@ -1693,6 +1911,15 @@ pre {
 	}
 	.experiment {
 		padding: 28px 22px;
+	}
+	.primer-next {
+		padding: 36px 24px;
+	}
+	.concept-list > section {
+		padding: 22px 18px;
+	}
+	.checkpoint-list details > p {
+		margin-left: 0;
 	}
 	.app-shell {
 		padding-block: 52px 78px;

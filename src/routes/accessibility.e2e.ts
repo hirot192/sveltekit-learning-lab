@@ -29,6 +29,12 @@ test('has no automatically detectable WCAG A/AA violations on representative pag
 	await page.goto('/');
 	await expectNoAccessibilityViolations(page);
 
+	await page.goto('/learn');
+	await expectNoAccessibilityViolations(page);
+
+	await page.goto('/learn/routing');
+	await expectNoAccessibilityViolations(page);
+
 	await page.goto('/register');
 	await expectNoAccessibilityViolations(page);
 	await page.getByLabel('表示名').fill('アクセシビリティ検査');

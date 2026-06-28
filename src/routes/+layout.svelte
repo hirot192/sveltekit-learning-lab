@@ -8,7 +8,7 @@
 
 	const navigation = [
 		{ href: resolve('/'), label: 'ホーム' },
-		{ href: resolve('/learn/[chapter]', { chapter: 'routing' }), label: '教材を読む' }
+		{ href: resolve('/learn'), label: '教材を読む' }
 	];
 </script>
 

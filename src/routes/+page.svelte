@@ -19,9 +19,7 @@
 			データがどこでHTMLになるのかを追跡する教材です。
 		</p>
 		<div class="hero-actions">
-			<a class="button primary" href={resolve('/learn/[chapter]', { chapter: 'routing' })}
-				>最初の章を読む <span>→</span></a
-			>
+			<a class="button primary" href={resolve('/learn')}>基礎編から読む <span>→</span></a>
 			<a class="button secondary" href="#curriculum">学習マップを見る</a>
 		</div>
 	</div>
@@ -63,8 +61,8 @@
 
 <section class="principles shell" aria-label="教材の特徴">
 	<div>
-		<span class="principle-number">01</span><strong>触ってから読む</strong>
-		<p>まず挙動を確認し、その直後に担当コードを開きます。</p>
+		<span class="principle-number">01</span><strong>地図を持って触る</strong>
+		<p>共通概念を短く学び、何を観察するか決めてからアプリを操作します。</p>
 	</div>
 	<div>
 		<span class="principle-number">02</span><strong>境界を追いかける</strong>
@@ -85,6 +83,22 @@
 		<p><strong>{readyCount}</strong> / {chapters.length} 章を公開中</p>
 	</div>
 	<div class="chapter-grid">
+		<article class="chapter-card foundation-card">
+			<div class="chapter-meta"><span>00</span><span class="status ready">基礎編</span></div>
+			<h3>SvelteKitを読むための地図</h3>
+			<p>
+				route規約、serverとbrowserの境界、SSR、hydration、load、Form
+				Actionsを一つの流れとして整理します。
+			</p>
+			<ul aria-label="基礎編で扱う技術">
+				<li>request</li>
+				<li>SSR</li>
+				<li>server / browser</li>
+			</ul>
+			<a href={resolve('/learn')} aria-label="SvelteKit基礎編を読む">
+				最初に読む <span aria-hidden="true">→</span>
+			</a>
+		</article>
 		{#each chapters as chapter, index (chapter.slug)}<ChapterCard
 				{chapter}
 				number={index + 1}
@@ -98,9 +112,7 @@
 		<h2>最初のリクエストを<br />追いかけよう。</h2>
 	</div>
 	<div>
-		<p>第1章ではファイルベースルーティングを扱います。このページ自身が、最初の実例です。</p>
-		<a class="button inverted" href={resolve('/learn/[chapter]', { chapter: 'routing' })}
-			>第1章へ進む <span>→</span></a
-		>
+		<p>基礎編でSvelteKit全体の地図を作り、その後は各章で操作、概念、コード、実験を往復します。</p>
+		<a class="button inverted" href={resolve('/learn')}>基礎編へ進む <span>→</span></a>
 	</div>
 </section>

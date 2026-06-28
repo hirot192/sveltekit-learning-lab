@@ -15,11 +15,14 @@ test.afterAll(async () => {
 	await pool.end();
 });
 
-test('opens the first lesson from the curriculum', async ({ page }) => {
+test('reads the primer before opening the first chapter', async ({ page }) => {
 	await page.goto('/');
 
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('「なぜ？」まで');
-	await page.getByRole('link', { name: '最初の章を読む' }).click();
+	await page.getByRole('link', { name: '基礎編から読む' }).click();
+	await expect(page).toHaveURL(/\/learn$/);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('SvelteKitを読むための地図');
+	await page.getByRole('link', { name: '第1章へ進む' }).click();
 	await expect(page).toHaveURL(/\/learn\/routing$/);
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('ルーティングと描画');
 });
