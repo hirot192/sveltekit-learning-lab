@@ -1,4 +1,4 @@
-FROM node:24.16.0-bookworm-slim@sha256:2c87ef9bd3c6a3bd4b472b4bec2ce9d16354b0c574f736c476489d09f560a203 AS dependencies
+FROM node:26.4.0-bookworm-slim@sha256:b16ca7b4dcfb20184e1c70f9ee30c6a75ed1da669cfafd6d2add4761b123d79f AS dependencies
 
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -13,13 +13,13 @@ ENV DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build
 COPY . .
 RUN npm run build
 
-FROM node:24.16.0-bookworm-slim@sha256:2c87ef9bd3c6a3bd4b472b4bec2ce9d16354b0c574f736c476489d09f560a203 AS production-dependencies
+FROM node:26.4.0-bookworm-slim@sha256:b16ca7b4dcfb20184e1c70f9ee30c6a75ed1da669cfafd6d2add4761b123d79f AS production-dependencies
 
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-FROM node:24.16.0-bookworm-slim@sha256:2c87ef9bd3c6a3bd4b472b4bec2ce9d16354b0c574f736c476489d09f560a203 AS runner
+FROM node:26.4.0-bookworm-slim@sha256:b16ca7b4dcfb20184e1c70f9ee30c6a75ed1da669cfafd6d2add4761b123d79f AS runner
 
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
